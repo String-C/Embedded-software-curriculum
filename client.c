@@ -10,21 +10,21 @@ void sendCommand(const char *command) {
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
     char buffer[1024] = {0};
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {//创建基于网络的主机间通信
         printf("\nSocket creation error\n");
         return;
     }
 
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(PORT);
+    serv_addr.sin_family = AF_INET;//基于IPV4的family只能是这个
+    serv_addr.sin_port = htons(PORT);//将主机的端口号转换为网络的端口号 
 
-    // 将 "127.0.0.1" 替换为服务器的实际IP地址
+    // 将 "192.168.116.162" 替换为 网络字节序的二进制形式
     if (inet_pton(AF_INET, "192.168.116.162", &serv_addr.sin_addr) <= 0) {
         printf("\nInvalid address/ Address not supported\n");
         return;
     }
 
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {//与sock套接字建立连接
         printf("\nConnection Failed\n");
         return;
     }
